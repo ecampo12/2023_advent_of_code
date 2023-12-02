@@ -17,19 +17,17 @@ class Test(unittest.TestCase):
     def test_part1(self):
         input = []
         expected = []
-        asertTrue(False)
+        self.asertTrue(False)
 
     def test_part2(self):
         input = []
         expected  = []
-        asertTrue(False)
-        self.assertEqual(sum, 281)
-    
+        self.asertTrue(False)
         
-if __name__ == "__main__":
+if __name__ == \"__main__\":
     unittest.main()
     " > test.py
-    # commit to git
+    commit to git
     git add .
     git commit -m "Script created: Day $1"
 else
