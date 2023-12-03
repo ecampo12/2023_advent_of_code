@@ -12,9 +12,8 @@ if [ "$1" -eq "$1" ] 2>/dev/null; then
     cd day$1
     touch "test_input.txt"
     touch "test_expected.txt"
-    commit to git
     git add .
-    git commit -m "Script created: Day $1"
+    git commit -m "Created by script: Day $1"
 else
     usage
 fi
