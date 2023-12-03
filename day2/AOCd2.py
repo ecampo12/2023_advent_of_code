@@ -4,37 +4,36 @@ RED = 12
 GREEN = 13
 BLUE = 14
 
-def part1(input):
+def get_colors(input):
     game_sets = input.split(":")[1].split(";")
+    return [re.findall(r"(\d+ (blue|red|green))", game_set) for game_set in game_sets]
+        
 
-    for game_set in game_sets:
-        colors = re.findall(r"(\d+ (blue|red|green))", game_set)
-        for color in colors:
-            num = int(color[0].split(" ")[0])
-            if color[1] == "red" and int(num) > RED:
+def part1(input):
+    colors = get_colors(input)
+    for color in colors:
+        for c in color:
+            num = int(c[0].split(" ")[0])
+            if c[1] == "red" and num > RED:
                 return False
-            elif color[1] == "blue" and int(num) > BLUE:
+            elif c[1] == "blue" and num > BLUE:
                return False
-            elif color[1] == "green" and int(num) > GREEN:
+            elif c[1] == "green" and num > GREEN:
                 return False
-
     return True
 
 def part2(input):
-    game_sets = input.split(":")[1].split(";")
-
+    colors = get_colors(input)
     fewest_red, fewest_green, fewest_blue = 0, 0, 0
-    for game_set in game_sets:
-        colors = re.findall(r"(\d+ (blue|red|green))", game_set)
-        for color in colors:
-            num = int(color[0].split(" ")[0])
-            if color[1] == "red" and int(num) > fewest_red:
+    for color in colors:
+        for c in color:
+            num = int(c[0].split(" ")[0])
+            if c[1] == "red" and num > fewest_red:
                 fewest_red = num
-            elif color[1] == "blue" and int(num) > fewest_blue:
+            elif c[1] == "blue" and num > fewest_blue:
                 fewest_blue = num
-            elif color[1] == "green" and int(num) > fewest_green:
+            elif c[1] == "green" and num > fewest_green:
                 fewest_green = num
-
     return fewest_red * fewest_green * fewest_blue
 
 def main():
