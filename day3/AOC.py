@@ -18,7 +18,8 @@ def get_adjacent(numbers, sym_pos, key):
     # (0, -1)  (y, x)  (0, 1)
     # (1, -1)  (1, 0)  (1, 1)
     positions = [(-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1,-1), (-1, 0)]
-    seen, adjacent = [], []
+    adjacent = []
+    seen = set()
     for pos in positions:
         y = key + pos[0]
         x = sym_pos + pos[1]
@@ -26,7 +27,7 @@ def get_adjacent(numbers, sym_pos, key):
             for num in numbers[y]:
                 if num.span()[0] <= x and num.span()[1] > x and (y, num.span()) not in seen:
                     adjacent.append(num.group())
-                    seen.append((y, num.span()))
+                    seen.add((y, num.span()))
     return adjacent
     
 def part1(input):
