@@ -20,15 +20,24 @@ def part1(input):
     return found_nums, total
 
 def part2(input):
-    return True
-
+    # probably more efficient to addto dict as we go, but this works
+    card_count = {x: 1 for x in range(len(input))}
+    for i in range(len(input)):
+            num, _ = part1(input[i])
+            for j in range(len(num)):
+                if j+i+1 in card_count:
+                    card_count[j+i+1] += 1 * card_count[i]      
+    return card_count
+            
+            
 def main():
     input = open("input.txt", "r").read().splitlines()
-    part1_sum = 0
-    part2_sum = 0
+    part1_sum, part2_sum = 0, 0
     for i in range(len(input)):
             _, total = part1(input[i])
             part1_sum += total
+    cards = part2(input)
+    part2_sum = sum([cards[key] for key in cards])
     print(f"Part 1: {part1_sum}")
     print(f"Part 2: {part2_sum}")
 

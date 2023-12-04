@@ -24,13 +24,24 @@ class Test(unittest.TestCase):
         self.assertEqual(sum, 13)
         
 
-    # def test_part2(self):
-        # file = open("test_input.txt", "r")
-        # input = file.read().splitlines()
-        # file.close()
-        # expected = 467835
-        # sum = part2(input)
-        # self.assertEqual(sum, expected)
+    def test_part2(self):
+        file = open("test_input.txt", "r")
+        input = file.read().splitlines()
+        file.close()
+        expected_card_count = { # Games key off by -1, to make my life easier
+            0 : 1,
+            1 : 2,
+            2 : 4,
+            3 : 8,
+            4 : 14,
+            5 : 1,
+        }
+        sum = 0
+        cards = part2(input)
+        for key in cards:
+            self.assertEqual(cards[key], expected_card_count[key])
+            sum += cards[key]
+        self.assertEqual(sum, 30)
         
 if __name__ == "__main__":
     unittest.main()
