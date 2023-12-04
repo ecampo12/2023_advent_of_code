@@ -34,20 +34,27 @@ def part1(input):
     numbers, symbols = parse_input(input)
     for key, symbol in symbols.items():
         for i in range(len(symbol)):
-            print(symbol[i].group())
             adj = get_adjacent(numbers, symbol[i].span()[0], key)
-            print(adj)
             for a in adj:
                 part_sum += int(a)
     return part_sum
 
 def part2(input):
-    return True
+    part_sum = 0
+    numbers, symbols = parse_input(input)
+    for key, symbol in symbols.items():
+        for i in range(len(symbol)):
+            if symbol[i].group() == "*":
+                adj = get_adjacent(numbers, symbol[i].span()[0], key)
+                if len(adj) == 2:
+                    part_sum += int(adj[0]) * int(adj[1])
+                
+    return part_sum
 
 def main():
     input = open("input.txt", "r").read().splitlines()
     part1_sum = part1(input) 
-    part2_sum = 0
+    part2_sum = part2(input)
     print(f"Part 1: {part1_sum}")
     print(f"Part 2: {part2_sum}")
 
