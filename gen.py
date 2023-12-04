@@ -21,7 +21,7 @@ def main():
     print(f"Created day{day} folder")
     # I know I could use gitpython, but I don't want to install it
     os.system("git add .")
-    os.system(f"git commit -m \"Created day{day} folder from python\"")
+    os.system(f"git commit -m \"Created by script: Day{day}\"")
     
 if __name__ == "__main__":
     main()

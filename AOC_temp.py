@@ -6,9 +6,10 @@ def part2(input):
 
 def main():
     # input = open("input.txt", "r").read().splitlines()
-    part1, part2 = 0, 0
-    print(f"Part 1: {part1}")
-    print(f"Part 2: {part2}")
+    part1_sum = 0
+    part2_sum = 0
+    print(f"Part 1: {part1_sum}")
+    print(f"Part 2: {part2_sum}")
 
 if __name__ == "__main__":
     main()
