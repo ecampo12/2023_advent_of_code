@@ -1,8 +1,6 @@
 import sys
 import os
 import glob
-import time
-import datetime
 import re
 
 def main():

@@ -1,3 +1,8 @@
+import re
+
+def parse_input(input):
+    return input
+
 def part1(input):
     return True
 
