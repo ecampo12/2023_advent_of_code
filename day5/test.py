@@ -1,24 +1,7 @@
 import unittest
 from AOC import *
 
-class Test(unittest.TestCase):
-    # def test_parse_input(self):
-    #     file = open("test_input.txt", "r")
-    #     input = file.read()
-    #     file.close()
-    #     test_seeds = [79, 14, 55, 13]
-    #     test_soil = [81, 14, 57, 13]
-    #     seeds, map = parse_input(input)
-    #     seed_to_soil = map["seed-to-soil map:"]
-
-    #     for i in range(len(test_seeds)):
-    #         self.assertTrue(test_seeds[i] in seeds)
-    #         if test_seeds[i] == 14 or test_seeds[i] == 13:
-    #             with self.assertRaises(KeyError):
-    #                 seed_to_soil[test_seeds[i]]
-    #         else:
-    #             self.assertEqual(test_soil[i], seed_to_soil[test_seeds[i]])
-        
+class Test(unittest.TestCase):        
     def test_part1(self):
         file = open("test_input.txt", "r")
         input = file.read()
