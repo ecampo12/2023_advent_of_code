@@ -1,4 +1,5 @@
 import re
+import time
 
 def parse_input(input):
     records = input.splitlines()
@@ -33,11 +34,20 @@ def part2(times, distances):
 
 def main():
     input = open("input.txt", "r").read()
-    time, distance = parse_input(input)
-    part1_prod = part1(time, distance)
-    part2_sum = part2(time, distance)
+    start_p1 = time.perf_counter()
+    times, distances = parse_input(input)
+    part1_prod = part1(times, distances)
+    end_p1 = time.perf_counter()
+    
+    start_p2 = time.perf_counter()
+    part2_sum = part2(times, distances)
     print(f"Part 1: {part1_prod}")
     print(f"Part 2: {part2_sum}")
+    end_p2 = time.perf_counter()
+    
+    print("="*15)
+    print(f"Took {end_p1 - start_p1:0.4f} seconds to solve part 1")
+    print(f"Took {end_p2 - start_p2:0.4f} seconds to solve part 2")
 
 if __name__ == "__main__":
     main()
