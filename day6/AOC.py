@@ -1,5 +1,6 @@
 import re
 import time
+import math
 
 def parse_input(input):
     records = input.splitlines()
@@ -22,15 +23,17 @@ def part1(times, distances):
             
     return prod
 
-# Again, kinda brute force, but it works
+# optimized solution, decreased runtime from 3.4s to 0.0001s
 def part2(times, distances):
     times = int("".join(str(time) for time in times))
     distances = int("".join(str(distance) for distance in distances))
-    count = 0
-    for i in range(1, times):
-        if (times-i)*i > distances:
-            count += 1
-    return count
+ 
+    # figured out the formula for this one, finally got to use my the quadratic formula
+    # (b - x) * x > c (from part1 loop)
+    # x^2 - b*x + c < 0
+    a = times / 2.0
+    b = math.sqrt(a*a - distances)   
+    return math.ceil(a + b - 1) - math.floor(a - b + 1) + 1
 
 def main():
     input = open("input.txt", "r").read()
