@@ -13,9 +13,10 @@ HANDS_TYPES = {
 }
 
 class Player:
-    def __init__(self, hand, bid):
+    def __init__(self, hand, bid, wild=False):
         self.hand = hand
         self.bid = bid
+        self.wild = wild
         
         self.hand_type, self.card_values = self.cal_hand(hand)
     
@@ -39,15 +40,25 @@ class Player:
     def cal_hand(self, card):
         cards = {}
         card_vals = []
+        j_count = 0
         h_type = "high_card"
         for c in card:
-            card_vals.append(CARD_RANKS[c])
+            if self.wild and c == "J":
+                card_vals.append(1)
+            else:
+                card_vals.append(CARD_RANKS[c])
             if c in cards:
                 cards[c] += 1
             else:
                 cards[c] = 1
+        
+        if self.wild:
+            if "J" in cards:
+                j_count = cards["J"]
+                cards["J"] = 0
         hand_count = list(cards.values())
         hand_count.sort(reverse=True)
+        hand_count[0] += j_count
         
         if hand_count[0] == 5:
             h_type = "five_of_a_kind"
@@ -63,6 +74,7 @@ class Player:
                 h_type = "two_pairs"
             else:
                 h_type = "one_pair"
+            
         return h_type, card_vals
     
 def parse_input(input):
@@ -85,14 +97,22 @@ def part1(hands, bids):
         sum += rank * player.bid
     return sum
 
-def part2(input):
-    return True
+def part2(hands, bids):
+    players = []
+    sum = 0
+    for hand, bid in zip(hands, bids):
+        players.append(Player(hand, bid, True))
+
+    players.sort()
+    for rank, player in enumerate(players, start=1):
+        sum += rank * player.bid
+    return sum
 
 def main():
     input = open("input.txt", "r").read()
     hands, bids = parse_input(input)
     part1_sum = part1(hands, bids)
-    part2_sum = 0
+    part2_sum = part2(hands, bids)
     print(f"Part 1: {part1_sum}")
     print(f"Part 2: {part2_sum}")
 
