@@ -26,11 +26,11 @@ class Player:
     # Learned about this today __lt__ from https://stackoverflow.com/questions/1227121/compare-object-instances-for-equality-by-their-attributes-in-python
     # Pretty fucking useful
     def __lt__(self, other):
-        # Compare players based on hand type, hand value, and card values
+        # Compare players based on hand type, and card values
         if self.hand_type != other.hand_type:
             return HANDS_TYPES[self.hand_type] < HANDS_TYPES[other.hand_type]
         
-        # Compare card values in case of a tie in hand type and hand value
+        # Compare card values in case of a tie in hand type
         for self_card, other_card in zip(self.card_values, other.card_values):
             if self_card != other_card:
                 return self_card < other_card
@@ -41,7 +41,6 @@ class Player:
         cards = {}
         card_vals = []
         j_count = 0
-        h_type = "high_card"
         for c in card:
             if self.wild and c == "J":
                 card_vals.append(1)
@@ -61,52 +60,37 @@ class Player:
         hand_count[0] += j_count
         
         if hand_count[0] == 5:
-            h_type = "five_of_a_kind"
+            return "five_of_a_kind", card_vals
         elif hand_count[0] == 4:
-            h_type = "four_of_a_kind"
+            return "four_of_a_kind", card_vals
         elif hand_count[0] == 3:
             if hand_count[1] == 2:
-                h_type = "full_house"
+                return "full_house", card_vals
             else:
-                h_type = "three_of_a_kind"
+                return "three_of_a_kind", card_vals
         elif hand_count[0] == 2:
             if hand_count[1] == 2:
-                h_type = "two_pairs"
+                return "two_pairs", card_vals
             else:
-                h_type = "one_pair"
+                return "one_pair", card_vals
             
-        return h_type, card_vals
+        return "high_card", card_vals
     
 def parse_input(input):
     lines = input.splitlines()
-    hands, bids = [], []
-    for line in lines:
-        line = line.split(" ")
-        hands.append(line[0])
-        bids.append(int(line[1]))
+    hands = [line.split(" ")[0] for line in lines]
+    bids = [int(line.split(" ")[1]) for line in lines]
     return hands, bids
     
 def part1(hands, bids):
-    players = []
-    sum = 0
-    for hand, bid in zip(hands, bids):
-        players.append(Player(hand, bid))
-
+    players = [Player(hand, bid) for hand, bid in zip(hands, bids)]
     players.sort()
-    for rank, player in enumerate(players, start=1):
-        sum += rank * player.bid
-    return sum
+    return sum([rank * player.bid for rank, player in enumerate(players, start=1)])
 
 def part2(hands, bids):
-    players = []
-    sum = 0
-    for hand, bid in zip(hands, bids):
-        players.append(Player(hand, bid, True))
-
+    players = [Player(hand, bid, True) for hand, bid in zip(hands, bids)]
     players.sort()
-    for rank, player in enumerate(players, start=1):
-        sum += rank * player.bid
-    return sum
+    return sum([rank * player.bid for rank, player in enumerate(players, start=1)])
 
 def main():
     input = open("input.txt", "r").read()
