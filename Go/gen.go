@@ -13,10 +13,6 @@ func copyFile(dst_folder, src_file string, day int) error {
 		fmt.Println("Error reading file: ", err)
 	}
 	if day == 0 {
-		// err = os.WriteFile(fmt.Sprintf("%s/AOC.go", dst_folder), data, 0644)
-		// if err != nil {
-		// 	fmt.Println("Error writing file: ", err)
-		// }
 		fileName += "_test"
 	}
 	err = os.WriteFile(fmt.Sprintf("%s/%s.go", dst_folder, fileName), data, 0644)
@@ -59,5 +55,17 @@ func main() {
 	err = cmd.Run()
 	if err != nil {
 		fmt.Println("Error running go mod init: ", err)
+	}
+
+	cmd = exec.Command("git", "add", ".")
+	err = cmd.Run()
+	if err != nil {
+		fmt.Println("Error running git add: ", err)
+	}
+
+	cmd = exec.Command("git", "commit", "-m", fmt.Sprintf("Day %d created by go program", day))
+	err = cmd.Run()
+	if err != nil {
+		fmt.Println("Error running git commit: ", err)
 	}
 }
