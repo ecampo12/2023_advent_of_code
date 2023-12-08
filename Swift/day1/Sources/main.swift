@@ -10,10 +10,8 @@ func part1(input: [String]) -> Int {
 func part2(input: [String]) -> Int {
     let wordToInt = ["one": "o1e", "two": "t2o", "three": "th3ee", "four": "f4ur", "five": "f5ve",
                      "six": "s6x", "seven": "se7en", "eight": "ei8gh", "nine": "n9ne"]
-    var nums: [Int] = []
-    input.forEach{
+    let newInput = input.map{
         var str = $0
-
         for (key, value) in wordToInt {
             if str.contains(key){
                 str.ranges(of: key).forEach{
@@ -21,10 +19,9 @@ func part2(input: [String]) -> Int {
                 }
             }
         }
-        let vals = str.map{Int(String($0))}.filter{$0 != nil}.map{$0!}
-        nums.append((vals.first! )*10 + vals.last!)
+        return str
     }
-    return nums.reduce(0, +)
+    return part1(input: newInput)
 }
 
 print("Testing------------------")
