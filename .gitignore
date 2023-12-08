@@ -4,3 +4,5 @@ __pycache__
 # ignore input.txt file in all folders
 input.txt
 go.work
+# Swift stuff
+.build/
