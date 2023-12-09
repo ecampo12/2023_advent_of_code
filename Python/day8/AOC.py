@@ -38,7 +38,7 @@ def part2(instructions, routes, start_nodes):
             if curr_loc.endswith('Z'):
                 break
         counts.append(count-1)
-    return lcm(*counts)
+    return lcm(*counts) # * unpacks the list into arguments
 
 def main():
     input = open("input.txt", "r").read().splitlines()
