@@ -1,21 +1,9 @@
 import re
 
-# def parse_input(input):
-#     return input
-
 # FML graph theory =(
 def part1(grid):
-    start = ()
     seen = set()
-    for y, row in enumerate(grid):
-        for x, col in enumerate(row):
-            if col == "S":
-                start = (y, x)
-                break
-        else:
-            continue
-        break
-    print(start)
+    start = [(y, x) for y, row in enumerate(grid) for x, col in enumerate(row) if col == "S"][0]
     seen.add(start)
     queue = [start]
     
@@ -40,18 +28,53 @@ def part1(grid):
         if col < len(grid [row])-1 and char in "S-LF" and grid[row][col+1] in "-J7" and (row, col+1) not in seen:
             queue.append((row, col+1))
             seen.add((row, col+1))
-    # pipes from a loop, furthest point from start should be half of the loop
-    return int(len(seen) / 2)
+            
+    return start, seen
 
-def part2(input):
-    return True
+# This is a mess, but it works
+def replace_S(start, seen):
+    if (start[0]-1, start[1]) in seen: # north
+        if (start[0]+1, start[1]) in seen: # south
+            return "|"
+            
+        elif (start[0], start[1]-1) in seen: # weast
+            return "J"
+            
+        elif (start[0], start[1]+1) in seen: # east
+            return "L"
+            
+    elif (start[0]+1, start[1]) in seen: # south
+        if (start[0], start[1]-1) in seen:     
+            return "7" # west
+        elif (start[0], start[1]+1) in seen: # east
+            return "F"
+    else:
+        return "-"
+        
+def part2(grid):
+    start, loop = part1(grid)
+    grid= [row.replace("S", replace_S(start, loop)) for row in grid]
+  
+    for y, row in enumerate(grid):
+        grid[y] = "".join([col if (y, x) in loop else "." for x, col in enumerate(row)])
+
+    inside = 0
+    for y, row in enumerate(grid):
+        row = re.sub(r"L-*J|F-*7", "", row)
+        within = False
+        for _, col in enumerate(row):
+            if col in "|FL":
+                within = not within
+            if within and col == ".":
+                inside += 1
+    return inside
 
 def main():
     input = open("input.txt", "r").read().splitlines()
-    part1_sum = part1(input)
-    # part2_sum = 0
-    print(f"Part 1: {part1_sum}")
-    # print(f"Part 2: {part2_sum}")
+    _, part1_sum = part1(input)
+    part2_sum = part2(input)
+    print(f"Part 1: {len(part1_sum) // 2}")
+    print(f"Part 2: {part2_sum}")
 
 if __name__ == "__main__":
     main()
