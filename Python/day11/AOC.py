@@ -1,23 +1,17 @@
-import re
 from itertools import combinations
 
 # Goes through input 3 times, but F it. It's fast enough.
 def parse_input(input):
     galaxy = {}
-    empty_row = []
-    empty_col = []
+    empty_row = [i for i, row in enumerate(input) if all(col == "." for col in row)]
+    empty_col = [i for i, col in enumerate(zip(*input)) if all(cell == "." for cell in col)] # Trick to interate over columns
     count = 1
     for y, row in enumerate(input):
         for x, col in enumerate(row):
             if col == "#":
                 galaxy[count] = (y, x)
                 count += 1
-    for i, row in enumerate(input):
-        if all(col == "." for col in row):
-            empty_row.append(i)
-    for i, col in enumerate(zip(*input)): # Trick to interate over columns
-        if all(col == "." for col in col):
-            empty_col.append(i)
+
     return galaxy, empty_row, empty_col
 
 # Middle shcool math, baby!
@@ -48,7 +42,7 @@ def part1(galaxy, empty_rows, empty_cols):
     
     return sum(dists)
 
-def part2(galaxy, empty_rows, empty_cols, expand=1):
+def part2(galaxy, empty_rows, empty_cols, expand):
     dists = []
     combos = find_all_galaxy_pairs(galaxy)    
     for combo in combos:
