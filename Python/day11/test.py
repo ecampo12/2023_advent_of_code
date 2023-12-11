@@ -6,15 +6,16 @@ class Test(unittest.TestCase):
         file = open("test_input.txt", "r")
         input = file.read().splitlines()
         file.close()
-        expected = open("test_expected.txt", "r").read().splitlines()
-        self.assertTrue(False)
+        galaxies, rows, cols = parse_input(input)
+        dist_sum = part1(galaxies, rows, cols)
+        self.assertEqual(dist_sum, 374)
 
-    def test_part2(self):
-        file = open("test_input.txt", "r")
-        input = file.read().splitlines()
-        file.close()
-        expected  = open("test_expected.txt", "r").read().splitlines()
-        self.assertTrue(False)
+    # def test_part2(self):
+    #     file = open("test_input.txt", "r")
+    #     input = file.read().splitlines()
+    #     file.close()
+    #     expected  = open("test_expected.txt", "r").read().splitlines()
+    #     self.assertTrue(False)
         
 if __name__ == "__main__":
     unittest.main()
