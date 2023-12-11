@@ -7,8 +7,9 @@ def main():
     curr_path = sys.path[0]
     os.chdir(curr_path)
     list_of_files = glob.glob('day*')
-    latest_folder = max(list_of_files)
-    day = int(re.findall(r"(\d+)", latest_folder)[0]) + 1
+    day = max([int(re.findall(r'\d+', day)[0]) for day in list_of_files]) + 1
+    print(f"Latest folder: {day}")
+    print(f"Creating day{day} folder")
     os.mkdir(f"{curr_path}/day{day}")
     os.system(f"cp {curr_path}/AOC_temp.py {curr_path}/day{day}/AOC.py")
     os.system(f"cp {curr_path}/test_temp.py {curr_path}/day{day}/test.py")
