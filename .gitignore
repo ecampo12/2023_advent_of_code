@@ -6,3 +6,9 @@ input.txt
 go.work
 # Swift stuff
 .build/
+# Kotlin stuff
+.gradle
+.idea
+build
+src/**/*.txt
+local.properties
