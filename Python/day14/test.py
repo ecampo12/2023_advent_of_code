@@ -9,12 +9,12 @@ class Test(unittest.TestCase):
         sum = part1(input)
         self.assertEqual(sum, 136)
 
-    # def test_part2(self):
-    #     file = open("test_input.txt", "r")
-    #     input = file.read().splitlines()
-    #     file.close()
-    #     expected  = open("test_expected.txt", "r").read().splitlines()
-    #     self.assertTrue(False)
+    def test_part2(self):
+        file = open("test_input.txt", "r")
+        input = file.read().splitlines()
+        file.close()
+        sum = part2(input)
+        self.assertEqual(sum, 64)
         
 if __name__ == "__main__":
     unittest.main()
