@@ -26,7 +26,7 @@ class Boxes {
         val newLens = Lens(label, len)
         val index = hash(label)
         if (index !in boxes){
-            boxes[index] = ArrayList<Lens>()
+            boxes[index] = ArrayList()
             boxes[index]!!.add(newLens)
         } else if (!contains(label, index)){
             boxes[index]!!.add(newLens)
@@ -51,7 +51,7 @@ class Boxes {
     }
 
     fun print(){
-        boxes.forEach { it ->
+        boxes.forEach {
             var lens = ""
             it.value.forEach {len: Lens ->
                 lens += "[${len.label} ${len.focalLen}] "
@@ -87,6 +87,7 @@ fun main() {
             }
 //            boxes.print()
         }
+//        boxes.print()
         return boxes.boxes.map {
             it.value.mapIndexed{ i :Int, len: Lens ->
                 (it.key + 1) * (i + 1) * len.focalLen
