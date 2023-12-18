@@ -19,7 +19,7 @@ class Path:
 # Implementing Dial's algorithm. It's like Dijsktra's but with buckets.
 # TL;DR: Because we know the are below 10, we can use buckets from 1 to 9.
 # https://www.codingninjas.com/studio/library/dials-algorithm
-def part1(input: [str], part2: bool = False) -> int:
+def part1(input: [str], part2: bool = False) -> int: # learn type annotations are a thing, and they are very useful
     grid = [list(map(int, line)) for line in input]
     a = Path((0, 0), (0, 1), 0) # going right
     b = Path((0, 0), (1, 0), 0) # going down
@@ -31,7 +31,6 @@ def part1(input: [str], part2: bool = False) -> int:
     while buckets:
         buckets.append([])
         for heat_lost, path in buckets.popleft():
-            # print(heat_lost, path)
             path.steps = path.steps
             
             if path.cords == goal:
@@ -40,17 +39,14 @@ def part1(input: [str], part2: bool = False) -> int:
                 if part2 and path.steps >= 4:
                     return heat_lost
     
-
             if heat_lost < seen[path]:
                 continue
             
             directions = []
-            
             dir = path.direction
             
             if part2:
                 if path.steps < 10:
-                    # print("part2")
                     directions.append(dir)
                 if path.steps >= 4:
                     directions.append((-dir[1], dir[0]))
@@ -79,6 +75,7 @@ def main():
     input = open("input.txt", "r").read().splitlines()
     part1_sum = part1(input)
     print(f"Part 1: {part1_sum}")
+    
     t1 = time.perf_counter()
     part2_sum = part2(input)
     print(f"Part 2: {part2_sum}")
