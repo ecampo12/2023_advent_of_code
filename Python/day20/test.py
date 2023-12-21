@@ -6,15 +6,15 @@ class Test(unittest.TestCase):
         file = open("test_input.txt", "r")
         input = file.read().splitlines()
         file.close()
-        expected = open("test_expected.txt", "r").read().splitlines()
-        self.assertTrue(False)
+        total = part1(input)
+        self.assertEqual(total, 32000000)
 
-    def test_part2(self):
-        file = open("test_input.txt", "r")
+    def test_part1_2(self):
+        file = open("test_input2.txt", "r")
         input = file.read().splitlines()
         file.close()
-        expected  = open("test_expected.txt", "r").read().splitlines()
-        self.assertTrue(False)
+        total = part1(input)
+        self.assertEqual(total, 11687500)
         
 if __name__ == "__main__":
     unittest.main()
