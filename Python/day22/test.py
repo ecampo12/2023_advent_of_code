@@ -10,12 +10,13 @@ class Test(unittest.TestCase):
         x = part1(b)
         self.assertEqual(x, 5)
 
-    # def test_part2(self):
-    #     file = open("test_input.txt", "r")
-    #     input = file.read().splitlines()
-    #     file.close()
-    #     expected  = open("test_expected.txt", "r").read().splitlines()
-    #     self.assertTrue(False)
+    def test_part2(self):
+        file = open("test_input.txt", "r")
+        input = file.read().splitlines()
+        file.close()
+        b = parse_input(input)
+        x = part2(b)
+        self.assertEqual(x, 7)
         
 if __name__ == "__main__":
     unittest.main()
