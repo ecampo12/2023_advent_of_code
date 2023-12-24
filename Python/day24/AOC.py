@@ -1,4 +1,3 @@
-import re
 from itertools import combinations
 
 def parse_input(input):
