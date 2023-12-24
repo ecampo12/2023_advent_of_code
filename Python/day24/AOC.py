@@ -1,4 +1,7 @@
 from itertools import combinations
+from time import perf_counter
+# First day where I had to use a library that wasn't in the standard library
+from z3 import Int, Solver, sat # pip install z3-solver
 
 def parse_input(input):
     hail = []
@@ -46,15 +49,33 @@ def part1(input, bound1, bound2):
                 count += 1
     return count
 
+# z3 is a SMt solver, I used it to solve a system of equations
+# For part 2 I need to find where the rock has to be to destory all the hail over time
+# After finding that position, I just need to find the sum of the coordinates of the rock
 def part2(input):
-    return True
+    fx,  fy,  fz  = Int("fx"),  Int("fy"),  Int("fz")
+    fdx, fdy, fdz = Int("fdx"), Int("fdy"), Int("fdz")
+    s = Solver()
+    for i, ((x,y,z), (dx,dy,dz)) in enumerate(input):
+        t = Int(f"t{i}")
+        s.add(t >= 0)
+        s.add(x + dx * t == fx + fdx * t)
+        s.add(y + dy * t == fy + fdy * t)
+        s.add(z + dz * t == fz + fdz * t)
+    if s.check() == sat:
+        return s.model().eval(fx + fy + fz)
+    return 0
 
 def main():
     input = open("input.txt", "r").read().splitlines()
     part1_sum = part1(parse_input(input), 200000000000000, 400000000000000)
-    part2_sum = 0
     print(f"Part 1: {part1_sum}")
+    
+    t1 = perf_counter()
+    part2_sum = part2(parse_input(input))
+    t2 = perf_counter()
     print(f"Part 2: {part2_sum}")
+    print(f"Part 2 took {t2 - t1} seconds")
 
 if __name__ == "__main__":
     main()
