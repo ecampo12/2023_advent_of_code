@@ -16,8 +16,7 @@ def find_line_functions(hail):
     points, d = hail
     x, y, _ = points
     dx, dy, _ = d
-    x2, y2 = x + dx, y + dy
-    m = (y2 - y) / (x2 - x)
+    m = dy / dx
     b = y - m * x
     return m, b
 
@@ -32,18 +31,18 @@ def find_intersection(hail1, hail2):
     
     return x_intersect, y_intersect
     
-
 def part1(input, bound1, bound2):
     count = 0
     for h1, h2 in combinations(input, 2):
         x, y = find_intersection(h1, h2)
         if x == None:
             continue
-        if x >= bound1 and x <= bound2 and y >= bound1 and y <= bound2:
+        if bound1 <= x <= bound2 and bound1 <= y <= bound2:
             for h in [h1, h2]:
                 dx = x - h[0][0]
                 dy = y - h[0][1]
                 if (dx > 0) != (h[1][0] > 0) or (dy > 0) != (h[1][1] > 0):
+                    # The hail is moving away from the intersection, so it happened in the past
                     break
             else:
                 count += 1
@@ -56,7 +55,9 @@ def part2(input):
     fx,  fy,  fz  = Int("fx"),  Int("fy"),  Int("fz")
     fdx, fdy, fdz = Int("fdx"), Int("fdy"), Int("fdz")
     s = Solver()
-    for i, ((x,y,z), (dx,dy,dz)) in enumerate(input):
+    # Appreantly we don't need to check all the hail.
+    # The first few is enough, plus it solves 0.25 seconds faster 🤷 
+    for i, ((x,y,z), (dx,dy,dz)) in enumerate(input[:10]):
         t = Int(f"t{i}")
         s.add(t >= 0)
         s.add(x + dx * t == fx + fdx * t)
