@@ -65,8 +65,8 @@ def dfs(graph, seen, start, end):
     if start == end:
         return 0
     # Needed because appreantly there are negative paths in the graph (???) 😕
-    # Yes -209 is a magic number, its the hight negative number I could find that gets me the right answer
-    # For a more general solution replace -209 with -float("inf")  
+    # Yes -209 is a magic number, its the highest negative number I could find that gets me the right answer
+    # For a more general solution replace -209 with -float("inf"), but a magic number seems to be faster
     max_path = -209
     seen.add(start)
     for n in graph[start]:
@@ -77,6 +77,8 @@ def dfs(graph, seen, start, end):
     seen.remove(start)
     return max_path
 
+# This part is fast because the maze is a driected acyclic graph, so it can be solved in linear time
+# https://en.wikipedia.org/wiki/Longest_path_problem#Acyclic_graphs
 def part1(input):
     start = (0, 1)
     end = (len(input) - 1, len(input[0]) - 2)
@@ -84,6 +86,9 @@ def part1(input):
     x = dfs(g, set(), start, end)
     return x
 
+# Removing the arraows makes the Problem harder, since we now paths that can loop back to other nodes.
+# It becomes an NP-hard problem, so yeah this is gonna take a while.
+# https://en.wikipedia.org/wiki/Longest_path_problem#NP-hardness
 def part2(input):
     start = (0, 1)
     end = (len(input) - 1, len(input[0]) - 2)
@@ -95,13 +100,11 @@ def part2(input):
     x = dfs(g, set(), start, end)
     return x
 
+# Part 2 is slow, takes about 17.4 seconds to run on my machine. I'm sure their are ways to speed it up.
 def main():
     input = open("input.txt", "r").read().splitlines()
     part1_sum = part1(input)
-    t1 = perf_counter()
     print(f"Part 1: {part1_sum}")
-    t2 = perf_counter()
-    print(f'It took {t2 - t1} seconds to solve part 1')
     
     t1 = perf_counter()
     part2_sum = part2(input)
