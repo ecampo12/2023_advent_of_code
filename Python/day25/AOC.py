@@ -1,62 +1,31 @@
-# pip install pyvis
-# Might also need to install Jupyter Notebook
-from pyvis.network import Network
 import networkx as nx
-from collections import deque
+from time import perf_counter
 
 def parse_input(input):
-    connections = {}
+    graph = nx.Graph()
     for line in input:
         component, other = line.split(": ")
         other = other.split(" ")
-        if component not in connections:
-            connections[component] = []
+        graph.add_node(component)
         for o in other:
-            if o not in connections:
-                connections[o] = []
-            connections[component].append(o)
-            connections[o].append(component)
-    return connections
+            graph.add_edge(component, o)
+    return graph
 
-def part1(input, test=False):
-    freq = set(input.keys())
-    total_node = len(freq)
-    # I could not think of a way to do this programmatically, so I graphed it.
-    G = nx.Graph()
-    for key in input.keys():
-        G.add_node(key)
-    for key in input.keys():
-        for other in input[key]:
-            G.add_edge(key, other)
-    net = Network(notebook=True, filter_menu=True, select_menu=True)
-    net.from_nx(G)
-    net.show("test.html")
-    
-    if test:
-        diconnect = [("hfx", 'pzl'), ('bvb', 'cmg'), ('nvd', 'jqt')]
-    else: # Yes, this is specific to my input. The pyvis code above will help you find yours.
-        diconnect = [('dgt', 'tnz'), ('rks', 'kzh'), ('gqm', 'ddc')]
-        
-    for d in diconnect:
-        input[d[0]].remove(d[1])
-        input[d[1]].remove(d[0])
-    
-    seen = set()
-    queue = deque([list(input.keys())[0]])
-    while queue:
-        key = queue.popleft()
-        if key not in seen:
-            seen.add(key)
-            queue.extend(input[key])
-    group1 = len(seen)
-    group2 = total_node - group1
-    return group1 * group2
+# Now that I had some sleep, I realized that netwrorkx has a function for this
+# This runs a lot slower than the previous solution, but it's more general
+def part1(graph):
+    nodes = nx.minimum_edge_cut(graph)
+    graph.remove_edges_from(nodes)
+    g1, g2 = nx.connected_components(graph)
+    return len(g1) * len(g2)
 
 def main():
     input = open("input.txt", "r").read().splitlines()
+    t1 = perf_counter()
     part1_sum = part1(parse_input(input))
+    t2 = perf_counter()
     print(f"Part 1: {part1_sum}")
-
+    print(f'It took {t2-t1} seconds to compute the solution')
 
 if __name__ == "__main__":
     main()

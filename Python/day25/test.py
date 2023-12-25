@@ -7,7 +7,7 @@ class Test(unittest.TestCase):
         input = file.read().splitlines()
         file.close()
         x = parse_input(input)
-        self.assertEqual(part1(x, True), 54)
+        self.assertEqual(part1(x), 54)
 
 if __name__ == "__main__":
     unittest.main()
